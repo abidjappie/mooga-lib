@@ -23,11 +23,11 @@ scene.addCharacters([player, enemy])
 while (True):
     for event in pygame.event.get():
         if event.type == pygame.QUIT: sys.exit()
+        
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RIGHT:
                 player.xacc = 1
                 player.animation = player_right
-                print(player.checkCollisionByType(enemy, 'right'))
             if event.key == pygame.K_LEFT:
                 player.xacc = -1
                 player.animation = player_left
@@ -35,13 +35,21 @@ while (True):
                 player.yacc = 1
             if event.key == pygame.K_UP:
                 player.yacc = -1
-        if event.type == pygame.KEYUP:
-            player.xacc = 0
-            player.yacc = 0
-            player.xvel = 0
-            player.yvel = 0
 
-    #scene.autoScrollView(1,0,50)
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_RIGHT:
+                player.xacc = 0
+                player.xvel = 0
+            if event.key == pygame.K_LEFT:
+                player.xacc = 0
+                player.xvel = 0
+            if event.key == pygame.K_DOWN:
+                player.yacc = 0
+                player.yvel = 0
+            if event.key == pygame.K_UP:
+                player.yacc = 0
+                player.yvel = 0
+    scene.autoScrollView(1,0,50)
 
     player.autoUpdateMotion(30)
     player.autoUpdateFrame(60)

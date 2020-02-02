@@ -66,13 +66,15 @@ class Scene:
         """ Draw the objects within the current Scene view to a Pygame Display. """
         screen.fill(self.backgroundColor)
         for character in self.characters:
-            if (character.rect.bottom < self.views[self.currentView]['y']):
+            bottom = character.y + character.height
+            right = character.x + character.width
+            if (bottom < self.views[self.currentView]['y']):
                 continue
-            if (character.rect.top > (self.views[self.currentView]['y']+self.views[self.currentView]['height'])):
+            if (character.y > (self.views[self.currentView]['y']+self.views[self.currentView]['height'])):
                 continue
-            if (character.rect.right < self.views[self.currentView]['x']):
+            if (right < self.views[self.currentView]['x']):
                 continue
-            if (character.rect.left > (self.views[self.currentView]['x']+self.views[self.currentView]['width'])):
+            if (character.x > (self.views[self.currentView]['x']+self.views[self.currentView]['width'])):
                 continue
             screen.blit(character.getImage(), character.getRect().move(-self.views[self.currentView]['x'],-self.views[self.currentView]['y']))
 
