@@ -1,5 +1,6 @@
 """ Mooga Library provides a simplified interface for 2D game development in Python. """
 import pygame
+
 import time
 import os
 
@@ -46,6 +47,34 @@ class Scene:
         if ( (timed- self.lastUpdateTime)> milliseconds):
             self.moveView(self.currentView, self.views[self.currentView]['x']+x, self.views[self.currentView]['y']+y)
             self.lastUpdateTime = timed
+
+    def autoFollowView(self, character, padding_x, padding_y, smoothing=False, speed=0, milliseconds=0):
+        target = {'x':character.x-padding_x, 'y':character.y-padding_y}
+        this_x, this_y = self.views[self.currentView]['x'], self.views[self.currentView]['y']
+        
+        timed = time.time()*1000
+        if ( (timed- self.lastUpdateTime)> milliseconds):
+            if smoothing:
+                if (this_x > target['x']):
+                    if (this_x - target['x']) < speed:
+                        speed = this_x - target['x']
+                    self.moveView(self.currentView, this_x - speed, this_y)
+                if (this_x < target['x']):
+                    if (target['x'] - this_x) < speed:
+                        speed = target['x'] - this_x
+                    self.moveView(self.currentView, this_x + speed, this_y)
+                if (this_y > target['y']):
+                    if (this_y - target['y']) < speed:
+                        speed = this_y - target['y']
+                    self.moveView(self.currentView, this_x, this_y - speed)
+                if (this_y < target['y']):
+                    if (target['y'] - this_y) < speed:
+                        speed = target['y'] - this_y
+                    self.moveView(self.currentView, this_x, this_y + speed)
+            else:
+                self.moveView(self.currentView, character.x-padding_x, character.y-padding_y)
+            self.lastUpdateTime = timed
+
     def addCharacters(self, new_characters):
         """ Add Character objects to the Scene. """
         if isinstance(new_characters, list):
