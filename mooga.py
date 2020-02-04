@@ -48,7 +48,7 @@ class Scene:
             self.moveView(self.currentView, self.views[self.currentView]['x']+x, self.views[self.currentView]['y']+y)
             self.lastUpdateTime = timed
 
-    def autoFollowView(self, character, padding_x, padding_y, smoothing=False, speed=0, milliseconds=0):
+    def viewFollowCharacter(self, character, padding_x, padding_y, smoothing=False, speed=0, milliseconds=0):
         target = {'x':character.x-padding_x, 'y':character.y-padding_y}
         this_x, this_y = self.views[self.currentView]['x'], self.views[self.currentView]['y']
         
